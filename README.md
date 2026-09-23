@@ -1,6 +1,31 @@
 local Config = {
-    ESP = {Enabled=true,Boxes=true,Names=true,Health=true,Distance=true,Weapon=true,Skeleton=true,SkeletonColor={1,0,0,1},MaxDist=2000},
-    Aimbot = {Enabled=false,Key=0x02,FOV=120,Speed=0.65,Bone="Head",VisibleOnly=true,ShowFov=true},
+    ESP = {
+        Enabled       = true,
+        Boxes         = true,
+        Names         = true,
+        Health        = true,
+        Distance      = true,
+        Weapon        = true,
+        Skeleton      = true,
+        SkeletonColor = {1, 0, 0, 1},
+        MaxDist       = 2000,
+        Corpse        = true,
+        CorpseBoxes   = true,
+        CorpseNames   = true,
+        CorpseDist    = true,
+        CorpseMaxDist = 500,
+        CorpseColor   = {0.6, 0.2, 0.8, 1},
+    },
+    Aimbot = {
+        Enabled     = false,
+        Key         = 0x02,
+        FOV         = 120,
+        Speed       = 0.65,
+        Bone        = "Head",
+        VisibleOnly = false,
+        ShowFov     = true,
+        Lock        = true,
+    },
     Predict = {Enabled=true,UseGravity=true,GravityScale=0.55,MaxPredictTime=1.0,FallbackSpeed=1500},
     Debug = false,
 }
@@ -16,8 +41,32 @@ local WEAPON_DB = {
     ["m9 pistol"]={speed=2600,gravity=nil,name="M9 Pistol"},
     ["g17"]={speed=2475,gravity=nil,name="G17 Pistol"},
     ["g17 pistol"]={speed=2475,gravity=nil,name="G17 Pistol"},
+    ["desert eagle"]={speed=2550,gravity=nil,name="Desert Eagle"},
+    ["sweeper desert eagle"]={speed=2390,gravity=nil,name="Sweeper Desert Eagle"},
+    ["desert eaglemode1"]={speed=2390,gravity=nil,name="Sweeper Desert Eagle"},
+    ["hi-power"]={speed=2520,gravity=nil,name="Hi-Power Pistol"},
+    ["hipower"]={speed=2520,gravity=nil,name="Hi-Power Pistol"},
+    ["mk23 socom"]={speed=2200,gravity=nil,name="SOCOM MK23"},
+    ["socom mk23"]={speed=2200,gravity=nil,name="SOCOM MK23"},
+    ["p220 sig"]={speed=2100,gravity=nil,name="P220 Pistol"},
+    ["p220"]={speed=2100,gravity=nil,name="P220 Pistol"},
+    ["mac-10"]={speed=2000,gravity=nil,name="MAC-10"},
+    ["mac10"]={speed=2000,gravity=nil,name="MAC-10"},
+    ["mac-10mod1"]={speed=2000,gravity=nil,name="Snake's MAC-10"},
+    ["snake's mac-10"]={speed=2000,gravity=nil,name="Snake's MAC-10"},
+    ["tec-9"]={speed=2500,gravity=nil,name="TEC-9"},
+    ["tec9"]={speed=2500,gravity=nil,name="TEC-9"},
+    ["m93r"]={speed=2600,gravity=nil,name="M93R Burst Machine Pistol"},
+    ["m93r burst"]={speed=2600,gravity=nil,name="M93R Burst Machine Pistol"},
+    ["skorpion vz.65"]={speed=2290,gravity=nil,name="Skorpion vz.65"},
+    ["skorpion vz65"]={speed=2290,gravity=nil,name="Skorpion vz.65"},
+    ["skorpion"]={speed=2290,gravity=nil,name="Skorpion vz.65"},
+    ["makarovmod1"]={speed=2260,gravity=nil,name="Avtomat Makarov"},
+    ["avtomat makarov"]={speed=2260,gravity=nil,name="Avtomat Makarov"},
     ["snubnose"]={speed=1815,gravity=nil,name="Snubnose Revolver"},
     ["snubnose revolver"]={speed=1815,gravity=nil,name="Snubnose Revolver"},
+    ["model 29"]={speed=2475,gravity=nil,name="Model 29 Revolver"},
+    ["python"]={speed=2735,gravity=nil,name="Python Revolver"},
     ["model 44"]={speed=3380,gravity=nil,name="Model 44 Carbine"},
     ["model 44 carbine"]={speed=3380,gravity=nil,name="Model 44 Carbine"},
     ["camp carbine"]={speed=2850,gravity=nil,name="Camp Carbine"},
@@ -38,11 +87,15 @@ local WEAPON_DB = {
     ["aks74u"]={speed=4000,gravity=nil,name="AKS-74U Assault Carbine"},
     ["patriot"]={speed=4075,gravity=nil,name="Patriot Assault Carbine"},
     ["patriot assault carbine"]={speed=4075,gravity=nil,name="Patriot Assault Carbine"},
+    ["ots-14 groza"]={speed=1975,gravity=nil,name="OTs-14 Groza"},
+    ["ots-14"]={speed=1975,gravity=nil,name="OTs-14 Groza"},
     ["ak-47"]={speed=3800,gravity=nil,name="AK-47 Assault Rifle"},
     ["ak-47 assault rifle"]={speed=3800,gravity=nil,name="AK-47 Assault Rifle"},
     ["ak47"]={speed=3800,gravity=nil,name="AK-47 Assault Rifle"},
     ["ak-47 draco"]={speed=3440,gravity=nil,name="Stunted AK-47"},
     ["stunted ak-47"]={speed=3440,gravity=nil,name="Stunted AK-47"},
+    ["akm"]={speed=3900,gravity=nil,name="AKM Assault Rifle"},
+    ["akm assault rifle"]={speed=3900,gravity=nil,name="AKM Assault Rifle"},
     ["m16a2"]={speed=4650,gravity=nil,name="M16A2 Assault Rifle"},
     ["m16a2 assault rifle"]={speed=4650,gravity=nil,name="M16A2 Assault Rifle"},
     ["m16a1"]={speed=4625,gravity=nil,name="M16A1 Assault Rifle"},
@@ -60,6 +113,9 @@ local WEAPON_DB = {
     ["ac-556"]={speed=4630,gravity=nil,name="AC-556 Assault Rifle"},
     ["ac-556 assault rifle"]={speed=4630,gravity=nil,name="AC-556 Assault Rifle"},
     ["ac556"]={speed=4630,gravity=nil,name="AC-556 Assault Rifle"},
+    ["an-94"]={speed=4650,gravity=nil,name="AN-94 Assault Rifle"},
+    ["an-94 assault rifle"]={speed=4650,gravity=nil,name="AN-94 Assault Rifle"},
+    ["an94"]={speed=4650,gravity=nil,name="AN-94 Assault Rifle"},
     ["m1 garand"]={speed=4370,gravity=nil,name="M1 Garand Battle Rifle"},
     ["m1 garand battle rifle"]={speed=4370,gravity=nil,name="M1 Garand Battle Rifle"},
     ["g3"]={speed=4270,gravity=nil,name="G3 Battle Rifle"},
@@ -88,15 +144,37 @@ local WEAPON_DB = {
     ["dragunov marksman rifle"]={speed=4400,gravity=nil,name="Dragunov Marksman Rifle"},
     ["vss vintorez"]={speed=2275,gravity=nil,name="VSS Vintorez Marksman Rifle"},
     ["vss-vintorez"]={speed=2275,gravity=nil,name="VSS Vintorez Marksman Rifle"},
+    ["m1903"]={speed=4425,gravity=nil,name="M1903 Springfield Rifle"},
+    ["m1903 springfield"]={speed=4425,gravity=nil,name="M1903 Springfield Rifle"},
+    ["springfield"]={speed=4425,gravity=nil,name="M1903 Springfield Rifle"},
+    ["m21"]={speed=4425,gravity=nil,name="M21 Marksman Rifle"},
+    ["m21 marksman rifle"]={speed=4425,gravity=nil,name="M21 Marksman Rifle"},
     ["mini-14"]={speed=4670,gravity=nil,name="Mini-14 Rifle"},
     ["mini-14 rifle"]={speed=4670,gravity=nil,name="Mini-14 Rifle"},
     ["mini 14"]={speed=4670,gravity=nil,name="Mini-14 Rifle"},
     ["m40a1"]={speed=4575,gravity=nil,name="M40A1 Sniper Rifle"},
     ["m40a1 sniper rifle"]={speed=4575,gravity=nil,name="M40A1 Sniper Rifle"},
+    ["l96a1"]={speed=4650,gravity=nil,name="L96A1 Sniper Rifle"},
+    ["l96a1 sniper rifle"]={speed=4650,gravity=nil,name="L96A1 Sniper Rifle"},
+    ["l96"]={speed=4650,gravity=nil,name="L96A1 Sniper Rifle"},
+    ["m1918 tankgewehr"]={speed=3700,gravity=nil,name="M1918 Tankgewehr"},
+    ["tankgewehr"]={speed=3700,gravity=nil,name="M1918 Tankgewehr"},
     ["maverick 88"]={speed=2600,gravity=nil,name="Maverick 88 Shotgun"},
     ["maverick 88 shotgun"]={speed=2600,gravity=nil,name="Maverick 88 Shotgun"},
     ["model 590"]={speed=2600,gravity=nil,name="Model 590 Shotgun"},
     ["model 590 shotgun"]={speed=2600,gravity=nil,name="Model 590 Shotgun"},
+    ["auto-5"]={speed=2450,gravity=nil,name="Auto-5 Shotgun"},
+    ["auto5"]={speed=2450,gravity=nil,name="Auto-5 Shotgun"},
+    ["coach gun"]={speed=2530,gravity=nil,name="Coach Gun"},
+    ["coach gunmod1"]={speed=2380,gravity=nil,name="Boomstick Coach Gun"},
+    ["boomstick coach gun"]={speed=2380,gravity=nil,name="Boomstick Coach Gun"},
+    ["spas-12"]={speed=2410,gravity=nil,name="SPAS-12 Combat Shotgun"},
+    ["spas12"]={speed=2410,gravity=nil,name="SPAS-12 Combat Shotgun"},
+    ["lupara"]={speed=2180,gravity=nil,name="Lupara Shotgun"},
+    ["luparamod1"]={speed=2180,gravity=nil,name="Broadside Lupara"},
+    ["broadside lupara"]={speed=2180,gravity=nil,name="Broadside Lupara"},
+    ["luparamod2"]={speed=2250,gravity=nil,name="Vagrant Lupara"},
+    ["vagrant lupara"]={speed=2250,gravity=nil,name="Vagrant Lupara"},
     ["mat-49"]={speed=2740,gravity=nil,name="MAT-49 SMG"},
     ["mat-49 smg"]={speed=2740,gravity=nil,name="MAT-49 SMG"},
     ["mat49"]={speed=2740,gravity=nil,name="MAT-49 SMG"},
@@ -106,6 +184,19 @@ local WEAPON_DB = {
     ["mp40"]={speed=2765,gravity=nil,name="MP 40 SMG"},
     ["m3a1"]={speed=2140,gravity=nil,name="M3A1 SMG"},
     ["m3a1 smg"]={speed=2140,gravity=nil,name="M3A1 SMG"},
+    ["ump45"]={speed=2180,gravity=nil,name="UMP45 SMG"},
+    ["ump-45"]={speed=2180,gravity=nil,name="UMP45 SMG"},
+    ["pp-19 bizon"]={speed=2340,gravity=nil,name="PP-19 Bizon SMG"},
+    ["pp19 bizon"]={speed=2340,gravity=nil,name="PP-19 Bizon SMG"},
+    ["pp-19"]={speed=2340,gravity=nil,name="PP-19 Bizon SMG"},
+    ["mp5k"]={speed=2600,gravity=nil,name="MP5K SMG"},
+    ["mp5-k"]={speed=2600,gravity=nil,name="MP5K SMG"},
+    ["uzi"]={speed=2665,gravity=nil,name="UZI SMG"},
+    ["uzimod1"]={speed=2720,gravity=nil,name="Rogue UZI SMG"},
+    ["rogue uzi"]={speed=2720,gravity=nil,name="Rogue UZI SMG"},
+    ["ao-46"]={speed=3580,gravity=nil,name="AO-46 SMG"},
+    ["ao-46 smg"]={speed=3580,gravity=nil,name="AO-46 SMG"},
+    ["ao46"]={speed=3580,gravity=nil,name="AO-46 SMG"},
     ["m1918a2 bar"]={speed=4380,gravity=nil,name="M1918A2 BAR"},
     ["m1918a2"]={speed=4380,gravity=nil,name="M1918A2 BAR"},
     ["bar"]={speed=4380,gravity=nil,name="M1918A2 BAR"},
@@ -117,7 +208,30 @@ local WEAPON_DB = {
     ["trooper m1919a6"]={speed=4350,gravity=nil,name="Trooper M1919A6 LMG"},
     ["rpk-74m"]={speed=4700,gravity=nil,name="RPK-74M LMG"},
     ["rpk74m"]={speed=4700,gravity=nil,name="RPK-74M LMG"},
+    ["m60mod1"]={speed=1100,gravity=nil,name="\"Santa's Pig\""},
+    ["santa's pig"]={speed=1100,gravity=nil,name="\"Santa's Pig\""},
+    ["m60"]={speed=4370,gravity=nil,name="M60 Machine Gun"},
+    ["m60 machine gun"]={speed=4370,gravity=nil,name="M60 Machine Gun"},
+    ["rpk"]={speed=3970,gravity=nil,name="RPK LMG"},
+    ["rpk lmg"]={speed=3970,gravity=nil,name="RPK LMG"},
+    ["pkm"]={speed=4240,gravity=nil,name="PKM Machine Gun"},
+    ["pkm machine gun"]={speed=4240,gravity=nil,name="PKM Machine Gun"},
 }
+
+local function getWorkspace()
+    if game and game.Workspace then return game.Workspace end
+    return nil
+end
+
+local function getWorkspaceGravity()
+    local ws = getWorkspace()
+    if not ws then return 120 end
+    local ok, g = pcall(function() return ws.GetGravity() end)
+    if ok and type(g) == "number" then return g end
+    local ok2, g2 = pcall(function() return ws.Gravity end)
+    if ok2 and type(g2) == "number" then return g2 end
+    return 120
+end
 
 local function extractItemName(json)
     if not json or json == "" then return nil end
@@ -167,9 +281,6 @@ local function getWeaponInfo(player)
     return Config.Predict.FallbackSpeed, nil, "unknown:"..itemName, itemName
 end
 
--- ============================================
--- LUA TABLE PARSER
--- ============================================
 local function parseLuaTable(s)
     local pos = 1
     local function skipWS()
@@ -261,9 +372,6 @@ local function parseLuaTable(s)
     return parseValue()
 end
 
--- ============================================
--- CONFIG SERIALIZE
--- ============================================
 local function serializeValue(v)
     local t = type(v)
     if t == "boolean" then return tostring(v)
@@ -298,9 +406,6 @@ local function serializeConfig()
     return "Config = " .. serializeValue(Config)
 end
 
--- ============================================
--- CONFIG FILE I/O
--- ============================================
 local CONFIG_FILENAME = "vector_config.txt"
 
 local function getConfigPaths()
@@ -367,11 +472,17 @@ local function applyConfigFromString(code)
     menu.Set("esp_weapon",   Config.ESP.Weapon)
     menu.Set("esp_skel",     Config.ESP.Skeleton)
     menu.Set("esp_maxdist",  Config.ESP.MaxDist)
+    menu.Set("corpse_enabled", Config.ESP.Corpse)
+    menu.Set("corpse_box",     Config.ESP.CorpseBoxes)
+    menu.Set("corpse_name",    Config.ESP.CorpseNames)
+    menu.Set("corpse_dist",    Config.ESP.CorpseDist)
+    menu.Set("corpse_maxdist", Config.ESP.CorpseMaxDist)
     menu.Set("aim_enabled",  Config.Aimbot.Enabled)
     menu.Set("aim_visible",  Config.Aimbot.VisibleOnly)
     menu.Set("aim_fov_draw", Config.Aimbot.ShowFov)
     menu.Set("aim_fov",      Config.Aimbot.FOV)
     menu.Set("aim_speed",    Config.Aimbot.Speed)
+    menu.Set("aim_lock",     Config.Aimbot.Lock)
     menu.Set("pred_enabled", Config.Predict.Enabled)
     menu.Set("pred_gravity", Config.Predict.UseGravity)
     menu.Set("pred_gscale",  Config.Predict.GravityScale)
@@ -401,13 +512,6 @@ local function loadConfigFromFile()
     return false
 end
 
-local function printConfigToConsole()
-    print(serializeConfig())
-end
-
--- ============================================
--- HELPERS
--- ============================================
 local function isEnemy(p)
     if not p or p.IsLocal or not p.IsAlive then return false end
     return true
@@ -432,7 +536,7 @@ local function predictPosition(origin, targetPos, targetVel, speed, gravity)
     local g = 0
     if Config.Predict.UseGravity then
         if gravity ~= nil then g = gravity * Config.Predict.GravityScale
-        else g = workspace.GetGravity() * Config.Predict.GravityScale end
+        else g = getWorkspaceGravity() * Config.Predict.GravityScale end
     end
     local D = targetPos - origin
     local Vt = targetVel
@@ -531,22 +635,251 @@ local function drawESP()
     end
 end
 
-local function drawFovCircle()
-    if not Config.Aimbot.Enabled or not Config.Aimbot.ShowFov then return end
-    local sw,sh = draw.GetScreenSize()
-    draw.Circle(sw*0.5, sh*0.5, Config.Aimbot.FOV, {1,1,1,0.35}, 64, 1.0)
+local CorpseCache = {}
+local lastCorpseScan = 0
+local PlayerHistory = {}
+
+local function rememberPlayers()
+    local now = utility.GetTime()
+    for _, p in ipairs(entity.GetPlayers()) do
+        local pos = p.Position
+        if pos then
+            local existing = PlayerHistory[p.Name]
+            if existing and existing.pos then
+                local dx = pos.X - existing.pos.X
+                local dy = pos.Y - existing.pos.Y
+                local dz = pos.Z - existing.pos.Z
+                if math.sqrt(dx*dx + dy*dy + dz*dz) > 5 then
+                    existing.consumed = false
+                end
+            end
+            PlayerHistory[p.Name] = {
+                pos = pos,
+                hp = p.Health or 100,
+                time = now,
+                consumed = existing and existing.consumed or false,
+            }
+        end
+    end
+    for name, data in pairs(PlayerHistory) do
+        if now - data.time > 300 then
+            PlayerHistory[name] = nil
+        end
+    end
+end
+
+local function findCorpseName(model, root)
+    local tagNames = { "PlayerName", "OwnerName", "DeadPlayerName", "Owner" }
+    for _, tagName in ipairs(tagNames) do
+        local tag = model:FindFirstChild(tagName)
+        if tag then
+            local val = tag.Value
+            if type(val) == "string" and val ~= "" then return val end
+            if val and type(val) == "userdata" and val.Name then
+                local ok, n = pcall(function() return val.Name end)
+                if ok and n and n ~= "" then return n end
+            end
+        end
+    end
+
+    local pos = root.Position
+    if pos and next(PlayerHistory) then
+        local bestName = nil
+        local bestDist = 30
+        for name, data in pairs(PlayerHistory) do
+            if data.pos and not data.consumed then
+                local dx = pos.X - data.pos.X
+                local dy = pos.Y - data.pos.Y
+                local dz = pos.Z - data.pos.Z
+                local d = math.sqrt(dx*dx + dy*dy + dz*dz)
+                if d < bestDist then
+                    bestDist = d
+                    bestName = name
+                end
+            end
+        end
+        if bestName then
+            PlayerHistory[bestName].consumed = true
+            return bestName
+        end
+    end
+
+    return nil
+end
+
+local function scanCorpses()
+    if not Config.ESP.Corpse then
+        if #CorpseCache > 0 then CorpseCache = {} end
+        return
+    end
+
+    local now = utility.GetTime()
+    if now - lastCorpseScan < 0.5 then return end
+    lastCorpseScan = now
+
+    local ws = getWorkspace()
+    if not ws then return end
+
+    local corpseFolder = ws:FindFirstChild("Corpses")
+    if not corpseFolder then return end
+
+    local kids = corpseFolder:GetChildren()
+    local limit = math.min(#kids, 50)
+
+    local live = {}
+    for i = 1, limit do
+        local m = kids[i]
+        if m and m.ClassName == "Model" then live[m] = true end
+    end
+
+    local newCache = {}
+    for _, entry in ipairs(CorpseCache) do
+        if live[entry.model] and entry.model.Parent == corpseFolder then
+            newCache[#newCache+1] = entry
+        end
+    end
+    CorpseCache = newCache
+
+    local cachedByModel = {}
+    for _, entry in ipairs(CorpseCache) do
+        cachedByModel[entry.model] = entry
+    end
+
+    for i = 1, limit do
+        local m = kids[i]
+        if m and m.ClassName == "Model" and not cachedByModel[m] then
+            local root = m:FindFirstChild("HumanoidRootPart")
+                or m:FindFirstChild("UpperTorso")
+                or m:FindFirstChild("Torso")
+                or m:FindFirstChild("Head")
+            if root then
+                local equip = m:FindFirstChild("Equipment")
+                local isPlayer = false
+                if equip then
+                    for _, item in ipairs(equip:GetChildren()) do
+                        local n = string.lower(item.Name)
+                        if string.find(n, "backpack", 1, true)
+                           or string.find(n, "accessory", 1, true)
+                           or string.find(n, "vest", 1, true) then
+                            isPlayer = true
+                            break
+                        end
+                    end
+                end
+
+                if isPlayer then
+                    local deadName = findCorpseName(m, root)
+                    CorpseCache[#CorpseCache+1] = {
+                        model = m,
+                        root = root,
+                        name = m.Name,
+                        deadName = deadName,
+                    }
+                end
+            end
+        end
+    end
+end
+
+local function drawCorpseESP()
+    if not Config.ESP.Corpse then return end
+    if #CorpseCache == 0 then return end
+
+    local col = Config.ESP.CorpseColor or {0.6,0.2,0.8,1}
+    local lp = entity.GetLocalPlayer()
+
+    for _, corpse in ipairs(CorpseCache) do
+        if corpse.root and corpse.root.Parent then
+            local pos = corpse.root.Position
+            if pos then
+                local dist = 0
+                if lp then dist = lp:DistanceTo(pos) end
+
+                if dist <= Config.ESP.CorpseMaxDist then
+                    local sx, sy, onScreen = draw.WorldToScreen(pos.X, pos.Y, pos.Z)
+                    if onScreen then
+                        local mnx, mny, mxx, mxy = 1e9, 1e9, -1e9, -1e9
+                        local any = false
+                        local kids = corpse.model:GetChildren()
+                        for _, c in ipairs(kids) do
+                            if c.ClassName == "MeshPart" or c.ClassName == "Part" then
+                                local p = c.Position
+                                if p then
+                                    local cx, cy, vis = draw.WorldToScreen(p.X, p.Y, p.Z)
+                                    if vis then
+                                        any = true
+                                        if cx < mnx then mnx = cx end
+                                        if cx > mxx then mxx = cx end
+                                        if cy < mny then mny = cy end
+                                        if cy > mxy then mxy = cy end
+                                    end
+                                end
+                            end
+                        end
+
+                        local bounds
+                        if any then
+                            bounds = {x=mnx, y=mny, w=mxx-mnx, h=mxy-mny, valid=true}
+                        else
+                            bounds = {x=sx-25, y=sy-30, w=50, h=30, valid=true}
+                        end
+
+                        if Config.ESP.CorpseBoxes then
+                            draw.CornerBox(bounds.x, bounds.y, bounds.w, bounds.h, col)
+                        end
+
+                        if Config.ESP.CorpseNames then
+                            local txt = corpse.deadName or "Corpse"
+                            local tw, th = draw.GetTextSize(txt, 12)
+                            draw.Text(bounds.x + bounds.w*0.5 - tw*0.5,
+                                      bounds.y - th - 2, txt, col, 12)
+                        end
+
+                        if Config.ESP.CorpseDist then
+                            local txt = string.format("%dm", math.floor(dist))
+                            local tw, th = draw.GetTextSize(txt, 11)
+                            draw.Text(bounds.x + bounds.w*0.5 - tw*0.5,
+                                      bounds.y + bounds.h + 2, txt, col, 11)
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+local AimbotState = { locked = nil }
+
+local function isLockValid()
+    local t = AimbotState.locked
+    if not t then return false end
+    if not t.IsAlive then return false end
+    if not t.Character then return false end
+
+    local sw, sh = draw.GetScreenSize()
+    local cx, cy = sw * 0.5, sh * 0.5
+    local x, y, vis = t:GetBoneScreen(Config.Aimbot.Bone)
+    if not vis then return false end
+    local dx, dy = x - cx, y - cy
+    local d = math.sqrt(dx * dx + dy * dy)
+    if d > Config.Aimbot.FOV * 1.5 then return false end
+    return true
 end
 
 local function getClosestToCrosshair()
-    local sw,sh = draw.GetScreenSize()
-    local cx,cy = sw*0.5, sh*0.5
+    if Config.Aimbot.Lock and AimbotState.locked and isLockValid() then
+        return AimbotState.locked, true
+    end
+
+    local sw, sh = draw.GetScreenSize()
+    local cx, cy = sw * 0.5, sh * 0.5
     local best, bestDist = nil, Config.Aimbot.FOV
-    for _,entry in ipairs(getTargets()) do
+    for _, entry in ipairs(getTargets()) do
         local p = entry.player
-        local x,y,vis = p:GetBoneScreen(Config.Aimbot.Bone)
+        local x, y, vis = p:GetBoneScreen(Config.Aimbot.Bone)
         if vis then
-            local dx,dy = x-cx, y-cy
-            local d = math.sqrt(dx*dx+dy*dy)
+            local dx, dy = x - cx, y - cy
+            local d = math.sqrt(dx * dx + dy * dy)
             if d < bestDist then
                 if not Config.Aimbot.VisibleOnly or raycast.IsPlayerVisible(p.Character) then
                     best, bestDist = p, d
@@ -554,14 +887,33 @@ local function getClosestToCrosshair()
             end
         end
     end
-    return best
+    return best, false
 end
 
 local function aimbotFrame()
-    if not Config.Aimbot.Enabled then return end
-    if not input.IsKeyDown(Config.Aimbot.Key) then return end
-    local target = getClosestToCrosshair()
-    if not target then return end
+    if not Config.Aimbot.Enabled then
+        AimbotState.locked = nil
+        return
+    end
+
+    local keyDown = input.IsKeyDown(Config.Aimbot.Key)
+    if not keyDown then
+        AimbotState.locked = nil
+        return
+    end
+
+    local target, fromLock = getClosestToCrosshair()
+    if not target then
+        if AimbotState.locked and not isLockValid() then
+            AimbotState.locked = nil
+        end
+        return
+    end
+
+    if Config.Aimbot.Lock and not fromLock then
+        AimbotState.locked = target
+    end
+
     local lp = entity.GetLocalPlayer()
     local speed, gravity = getWeaponInfo(lp)
     local origin = camera.GetPosition()
@@ -569,29 +921,42 @@ local function aimbotFrame()
     local headPos = target.HeadPosition
     if not headPos then return end
     local predicted = predictPosition(origin, headPos, targetVel, speed, gravity)
-    local sx,sy,onScreen = draw.WorldToScreen(predicted.X, predicted.Y, predicted.Z)
+    local sx, sy, onScreen = draw.WorldToScreen(predicted.X, predicted.Y, predicted.Z)
     if not onScreen then return end
-    local sw,sh = draw.GetScreenSize()
-    local cx,cy = sw*0.5, sh*0.5
+    local sw, sh = draw.GetScreenSize()
+    local cx, cy = sw * 0.5, sh * 0.5
     local speedFactor = 1.0 - Config.Aimbot.Speed
     input.MoveMouse((sx-cx)*speedFactor, (sy-cy)*speedFactor)
+end
+
+local function drawFovCircle()
+    if not Config.Aimbot.Enabled or not Config.Aimbot.ShowFov then return end
+    local sw,sh = draw.GetScreenSize()
+    draw.Circle(sw*0.5, sh*0.5, Config.Aimbot.FOV, {1,1,1,0.35}, 64, 1.0)
 end
 
 local function drawDebug()
     if not Config.Debug then return end
     local lp = entity.GetLocalPlayer()
     local speed, gravity, source, weaponName = getWeaponInfo(lp)
+    local lockStatus = "off"
+    if Config.Aimbot.Lock then
+        if AimbotState.locked then lockStatus = "LOCKED: " .. AimbotState.locked.Name
+        else lockStatus = "searching" end
+    end
+    local histCount = 0
+    for _ in pairs(PlayerHistory) do histCount = histCount + 1 end
     draw.Window(10,10,"debug","Weapon Info",{
         "Weapon: " .. tostring(weaponName or "none"),
         "Speed: " .. tostring(math.floor(speed)) .. " (" .. tostring(source) .. ")",
-        "Gravity: " .. tostring(gravity or workspace.GetGravity()) .. " x " .. tostring(Config.Predict.GravityScale),
+        "Gravity: " .. tostring(gravity or getWorkspaceGravity()) .. " x " .. tostring(Config.Predict.GravityScale),
+        "Corpses: " .. tostring(#CorpseCache),
+        "History: " .. tostring(histCount),
+        "Lock: " .. lockStatus,
         "FPS: " .. string.format("%.0f", utility.GetFPS()),
     })
 end
 
--- ============================================
--- MENU
--- ============================================
 menu.AddTab("Vector", "V")
 
 menu.AddGroup("Vector", "ESP")
@@ -604,10 +969,17 @@ menu.AddCheckbox("Vector", "ESP", "esp_weapon",  "Weapon",     true)
 menu.AddCheckbox("Vector", "ESP", "esp_skel",    "Skeleton",   true)
 menu.AddSliderInt("Vector", "ESP", "esp_maxdist", "Max dist", 50, 5000, 2000, "%d")
 
+menu.AddCheckbox("Vector", "ESP", "corpse_enabled", "Corpse ESP (Players)", true)
+menu.AddCheckbox("Vector", "ESP", "corpse_box",     "Corpse Boxes",         true)
+menu.AddCheckbox("Vector", "ESP", "corpse_name",    "Corpse Names",         true)
+menu.AddCheckbox("Vector", "ESP", "corpse_dist",    "Corpse Distance",      true)
+menu.AddSliderInt("Vector", "ESP", "corpse_maxdist", "Corpse Max dist", 10, 2000, 500, "%d")
+
 menu.AddGroup("Vector", "Aimbot")
 menu.AddCheckbox("Vector", "Aimbot", "aim_enabled",  "Enable Aimbot", false)
-menu.AddCheckbox("Vector", "Aimbot", "aim_visible",  "Visible only",  true)
+menu.AddCheckbox("Vector", "Aimbot", "aim_visible",  "Visible only",  false)
 menu.AddCheckbox("Vector", "Aimbot", "aim_fov_draw", "Show FOV",      true)
+menu.AddCheckbox("Vector", "Aimbot", "aim_lock",     "Target Lock",   true)
 menu.AddHotkey  ("Vector", "Aimbot", "aim_key",      "Key", 0x02)
 menu.AddSliderInt("Vector", "Aimbot", "aim_fov",     "FOV", 10, 500, 120, "%d°")
 menu.AddSliderFloat("Vector", "Aimbot", "aim_speed", "Speed (0=instant)", 0.0, 0.99, 0.65, "%.2f")
@@ -623,7 +995,7 @@ menu.AddSliderInt("Vector", "Prediction", "pred_fallback", "Fallback speed", 100
 
 menu.AddGroup("Vector", "Config")
 menu.AddButton("Vector", "Config", "config_save", "Save Config", function()
-    local ok, path = saveConfigToFile()
+    local ok = saveConfigToFile()
     if ok then notify.Success("Config", "saved", 2)
     else notify.Warning("Config", "save failed", 2) end
 end)
@@ -633,7 +1005,6 @@ menu.AddButton("Vector", "Config", "config_load", "Load Config", function()
     else notify.Warning("Config", "no file found", 2) end
 end)
 
--- Callbacks
 menu.SetCallback("esp_enabled", function(v) Config.ESP.Enabled = v end)
 menu.SetCallback("esp_box",     function(v) Config.ESP.Boxes = v end)
 menu.SetCallback("esp_name",    function(v) Config.ESP.Names = v end)
@@ -643,9 +1014,22 @@ menu.SetCallback("esp_weapon",  function(v) Config.ESP.Weapon = v end)
 menu.SetCallback("esp_skel",    function(v) Config.ESP.Skeleton = v end)
 menu.SetCallback("esp_maxdist", function(v) Config.ESP.MaxDist = v end)
 
-menu.SetCallback("aim_enabled",  function(v) Config.Aimbot.Enabled = v end)
+menu.SetCallback("corpse_enabled", function(v) Config.ESP.Corpse = v end)
+menu.SetCallback("corpse_box",     function(v) Config.ESP.CorpseBoxes = v end)
+menu.SetCallback("corpse_name",    function(v) Config.ESP.CorpseNames = v end)
+menu.SetCallback("corpse_dist",    function(v) Config.ESP.CorpseDist = v end)
+menu.SetCallback("corpse_maxdist", function(v) Config.ESP.CorpseMaxDist = v end)
+
+menu.SetCallback("aim_enabled",  function(v)
+    Config.Aimbot.Enabled = v
+    if not v then AimbotState.locked = nil end
+end)
 menu.SetCallback("aim_visible",  function(v) Config.Aimbot.VisibleOnly = v end)
 menu.SetCallback("aim_fov_draw", function(v) Config.Aimbot.ShowFov = v end)
+menu.SetCallback("aim_lock",     function(v)
+    Config.Aimbot.Lock = v
+    if not v then AimbotState.locked = nil end
+end)
 menu.SetCallback("aim_fov",      function(v) Config.Aimbot.FOV = v end)
 menu.SetCallback("aim_speed",    function(v) Config.Aimbot.Speed = v end)
 menu.SetCallback("aim_bone",     function(idx)
@@ -660,16 +1044,13 @@ menu.SetCallback("pred_gscale",  function(v) Config.Predict.GravityScale = v end
 menu.SetCallback("pred_maxt",    function(v) Config.Predict.MaxPredictTime = v end)
 menu.SetCallback("pred_fallback",function(v) Config.Predict.FallbackSpeed = v end)
 
--- ============================================
--- STARTUP: auto-load config
--- ============================================
 pcall(loadConfigFromFile)
 
--- ============================================
--- MAIN LOOP
--- ============================================
 OnFrame = function()
     syncAimbotKey()
+    rememberPlayers()
+    scanCorpses()
+    drawCorpseESP()
     drawESP()
     drawFovCircle()
     drawDebug()
