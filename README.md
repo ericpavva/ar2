@@ -1011,7 +1011,7 @@ base_ui:set_callback("ui_height", function(v)
 end)
 
 -- ═══════════════════════════════════════════════════════════════════════
--- SAVE / LOAD (agora que base_ui existe)
+-- SAVE / LOAD
 -- ═══════════════════════════════════════════════════════════════════════
 
 local CONFIG_NAME = "ar_v2_config.txt"
@@ -1438,42 +1438,44 @@ local function scan_corpses()
         if #corpse_cache > 0 then corpse_cache = {} end
         return
     end
+
     local now = utility.get_time()
     if now - last_corpse_scan < 0.5 then return end
     last_corpse_scan = now
 
     corpse_cache = {}
+
     local ws = get_workspace()
     if not ws then return end
+
     local folder = ws:find_first_child("Corpses")
     if not folder then return end
+
     local kids = folder:get_children()
     local limit = min(#kids, 50)
+
     for i = 1, limit do
         local m = kids[i]
         if m and m.class_name == "Model" then
-            local root = m:find_first_child("HumanoidRootPart")
-                or m:find_first_child("UpperTorso")
-                or m:find_first_child("Torso")
-                or m:find_first_child("Head")
-            if root then
-                local equip = m:find_first_child("Equipment")
-                local is_player = false
-                if equip then
-                    for _, item in ipairs(equip:get_children()) do
-                        local n = string.lower(item.name)
-                        if string.find(n, "backpack", 1, true)
-                           or string.find(n, "accessory", 1, true)
-                           or string.find(n, "vest", 1, true) then
-                            is_player = true
-                            break
-                        end
-                    end
-                end
-                if is_player then
+
+            -- ============================================
+            -- FILTRO: pula zumbis (nome contém "Infected")
+            -- ============================================
+            local name_lower = string.lower(m.name)
+            local is_infected = string.find(name_lower, "infected", 1, true) ~= nil
+
+            if not is_infected then
+                local root = m:find_first_child("HumanoidRootPart")
+                    or m:find_first_child("UpperTorso")
+                    or m:find_first_child("Torso")
+                    or m:find_first_child("Head")
+                if root then
                     local dead_name = find_corpse_name(m, root)
                     corpse_cache[#corpse_cache+1] = {
-                        model = m, root = root, name = m.name, dead_name = dead_name,
+                        model = m,
+                        root = root,
+                        name = m.name,
+                        dead_name = dead_name,
                     }
                 end
             end
@@ -1685,6 +1687,6 @@ else
 end
 
 -- ═══════════════════════════════════════════════════════════════════════
--- CARREGA CONFIG (agora que base_ui existe)
+-- CARREGA CONFIG
 -- ═══════════════════════════════════════════════════════════════════════
 pcall(load_config)
