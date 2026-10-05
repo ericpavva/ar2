@@ -838,6 +838,16 @@ local WEAPON_DB = {
     ["pp-19 bizon"]={speed=2340,gravity=nil,name="PP-19 Bizon SMG"},
     ["pp19 bizon"]={speed=2340,gravity=nil,name="PP-19 Bizon SMG"},
     ["pp-19"]={speed=2340,gravity=nil,name="PP-19 Bizon SMG"},
+    -- ▼▼▼ FIX: MP5 (sem K) — estava faltando, caía em mp5-k por substring ▼▼▼
+    ["mp5"]={speed=2700,gravity=nil,name="MP5 SMG"},
+    ["mp5 smg"]={speed=2700,gravity=nil,name="MP5 SMG"},
+    ["mp5a2"]={speed=2700,gravity=nil,name="MP5A2 SMG"},
+    ["mp5a3"]={speed=2700,gravity=nil,name="MP5A3 SMG"},
+    ["mp5a4"]={speed=2700,gravity=nil,name="MP5A4 SMG"},
+    ["mp5a5"]={speed=2700,gravity=nil,name="MP5A5 SMG"},
+    ["mp5sd"]={speed=2850,gravity=nil,name="MP5SD SMG"},
+    ["mp5sd6"]={speed=2850,gravity=nil,name="MP5SD6 SMG"},
+    -- ▲▲▲ FIM DO FIX ▲▲▲
     ["mp5k"]={speed=2600,gravity=nil,name="MP5K SMG"},
     ["mp5-k"]={speed=2600,gravity=nil,name="MP5K SMG"},
     ["uzi"]={speed=2665,gravity=nil,name="UZI SMG"},
@@ -880,7 +890,7 @@ local function get_friendly_weapon_name(item_name)
     local entry = WEAPON_DB[key]
     if entry then return entry.name end
     for db_key, db_entry in pairs(WEAPON_DB) do
-        if string.find(key, db_key, 1, true) or string.find(db_key, key, 1, true) then
+        if string.find(key, db_key, 1, true) then
             return db_entry.name
         end
     end
@@ -897,21 +907,32 @@ local function get_enemy_weapon(player)
     return extract_item_name(eq.value)
 end
 
+-- ═══════════════════════════════════════════════════════════════════════
+-- FIX: get_weapon_info — match EXATO primeiro, depois substring
+--      UNIDIRECIONAL (só "key contém db_key"). Removido o inverso que
+--      causava mp5 -> mp5-k e m16a1 -> m16a2.
+-- ═══════════════════════════════════════════════════════════════════════
 local function get_weapon_info(player)
     local item_name = get_enemy_weapon(player)
     if not item_name then return 1500, nil, "fallback", nil end
     local key = string.lower(item_name)
+
+    -- 1) Match EXATO primeiro
     local entry = WEAPON_DB[key]
     if entry then return entry.speed, entry.gravity, "db:"..key, item_name end
+
+    -- 2) Match por substring UNIDIRECIONAL (key contém db_key).
+    --    Escolhe o db_key MAIS LONGO que casa.
     local best_key, best_entry, best_len = nil, nil, 0
     for db_key, db_entry in pairs(WEAPON_DB) do
-        if string.find(key, db_key, 1, true) or string.find(db_key, key, 1, true) then
+        if string.find(key, db_key, 1, true) then
             if #db_key > best_len then
                 best_key, best_entry, best_len = db_key, db_entry, #db_key
             end
         end
     end
     if best_entry then return best_entry.speed, best_entry.gravity, "db~"..best_key, item_name end
+
     return 1500, nil, "unknown:"..item_name, item_name
 end
 
